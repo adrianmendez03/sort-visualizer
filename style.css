@@ -1,0 +1,18 @@
+:root {
+    --primary: #fafafa;
+    --secondary: #e3f2fd;
+    --accent: #db5461
+
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background: var(--background);
+}
+
+  
