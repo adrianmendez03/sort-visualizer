@@ -1,3 +1,6 @@
+// Time Complexity 0(n^2)
+// Space Complexity 0(1)
+
 function insertionSort(arr) {
     for (let i = 1; i < arr.length; i++) {
         const key = arr[i]
