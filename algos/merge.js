@@ -1,3 +1,6 @@
+// Time Complexity: 0(nlogn)
+// Space Complexity: 0(n)
+
 function mergeSort (arr) {
     if (arr.length > 1) {
         const mid = Math.floor(arr.length / 2)
