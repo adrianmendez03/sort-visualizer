@@ -2,6 +2,9 @@
 // Best case: 0(1)
 // Space: 0(1)
 
+// Bubble Sort iterates through the array of nums and compares two adjacent numbers.
+// It swaps those numbers if nums[j] > nums[j + 1]. It does this repeatedly until it reaches the end of the array.
+// It iterates through the array until no swaps were made or it has reached the end of the array 
 
 function bubbleSort (arr) {
     const length = arr.length

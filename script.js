@@ -1,5 +1,5 @@
 (function() {
-    let canvas, ctx, step, max = 50, nums = generateNums()
+    let canvas, ctx, step, max = 25, nums = generateNums()
 
     function generateNums () {
         const unique = new Set()
