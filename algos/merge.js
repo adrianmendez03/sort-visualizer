@@ -1,6 +1,10 @@
 // Time Complexity: 0(nlogn)
 // Space Complexity: 0(n)
 
+// Merge Sort is a recursice sorting method. The idea is to recursively split an array in half until you are left with one element, from there you build your
+// sorted array. The actual sorting happens by looping through both halves and comparing them and finally returning your sorted half. This process repeats until
+// it reaches the top of the recursive stack.
+
 function mergeSort (arr) {
     if (arr.length > 1) {
         const mid = Math.floor(arr.length / 2)
