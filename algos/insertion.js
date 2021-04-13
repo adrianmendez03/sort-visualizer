@@ -6,7 +6,7 @@
 // If the current number is less than, it swaps places until the current number is greater than the previous.
 // This process continues until it has iterated through the entire array.
 
-function insertionSort(arr) {
+export function insertionSort(arr) {
     for (let i = 1; i < arr.length; i++) {
         const key = arr[i]
         let j = i - 1
@@ -18,7 +18,3 @@ function insertionSort(arr) {
     }
     return arr
 }
-
-const arr = [4, 1, 5, 2, 7, 4, 10, 5, 90, 23, 14]
-
-console.log(insertionSort(arr))

@@ -1,5 +1,9 @@
 (function() {
-    let canvas, ctx, step, max = 25, nums = generateNums()
+    let $container, 
+        $sortBtn,
+        step = 20, 
+        max = 25, 
+        nums = generateNums()
 
     function generateNums () {
         const unique = new Set()
@@ -9,50 +13,36 @@
         return [...unique]
     }
 
-    function createGrid () {
-
-        const width = canvas.width
-        const height = canvas.height
-
-        step = height / max
-
-        ctx.save()
-        ctx.strokeStyle = 'gray'
-        ctx.fillStyle = 'black'
-        ctx.font = '14px Monospace'
-        ctx.lineWidth = 0.35
-
-        for (let y = 0; y <= max; y++) {
-            ctx.beginPath()
-            ctx.moveTo(0, y * step)
-            ctx.lineTo(width, y * step)
-            ctx.stroke()
-            ctx.fillText(y, 0, y * step)
-        }
-    }
-
     function drawNums () {
-        let width = Math.floor((canvas.width - 25) / max)
-        const gap = width * 0.01
+        let width = Math.floor(($container.width() - 25) / max)
+        const gap = (width * 0.02) + 'px'
         for (let i = 0; i < nums.length; i++) {
-            ctx.fillRect(25 + (width) * i,  0, width - gap, step * nums[i])
+            const $div = $("<div>").addClass("idle").width(width).height(step * nums[i]).css("margin", "0" + gap).attr("id", nums[i])
+            $container.append($div)
+            console.log($div[0].id)
         }
     }
 
-    function resizeCanvas () {
-        canvas.width = window.innerWidth
-        canvas.height = 500
-        createGrid()
+    function sort(method) {
+        switch(method) {
+            case 'bubble':
+                break
+            case 'insertion':
+                break
+            case 'merge':
+                break
+            case 'selection':
+                break
+            default:
+                break
+        }
     }
 
     function init () {
-        canvas = document.getElementById('canvas')
-        ctx = canvas.getContext('2d')
-        resizeCanvas()
-        createGrid()
+        $container = $("#sort-container")
+        $sortBtn = $("#sort-btn").on("click", sort)
         drawNums()
     }
 
     document.addEventListener('DOMContentLoaded', init)
-    window.addEventListener('resize', resizeCanvas)
 })()

@@ -6,7 +6,7 @@
 // It swaps those numbers if nums[j] > nums[j + 1]. It does this repeatedly until it reaches the end of the array.
 // It iterates through the array until no swaps were made or it has reached the end of the array 
 
-function bubbleSort (arr) {
+export function bubbleSort (arr) {
     const length = arr.length
     for (let i = 0; i < length; i++) {
         let swapped = false
@@ -22,7 +22,3 @@ function bubbleSort (arr) {
     }
     return arr
 }
-
-const arr = [4, 1, 5, 2, 7, 4, 10]
-
-console.log(bubbleSort(arr))

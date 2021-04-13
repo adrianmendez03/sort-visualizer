@@ -15,4 +15,20 @@ body {
     background: var(--background);
 }
 
+#sort-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin: 10px 0;
+    justify-content: center;
+}
+
+.idle {
+    background-color: var(--secondary);
+}
+
+.selected {
+    background-color: red;
+}
+
   

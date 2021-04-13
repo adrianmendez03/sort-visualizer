@@ -5,7 +5,7 @@
 // sorted array. The actual sorting happens by looping through both halves and comparing them and finally returning your sorted half. This process repeats until
 // it reaches the top of the recursive stack.
 
-function mergeSort (arr) {
+export function mergeSort (arr) {
     if (arr.length > 1) {
         const mid = Math.floor(arr.length / 2)
 
@@ -41,7 +41,3 @@ function mergeSort (arr) {
     }
     return arr
 }
-
-const arr = [5, 4, 3, 2, 1]
-
-console.log("Result: ", mergeSort(arr))
