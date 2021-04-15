@@ -1,4 +1,6 @@
-const speed  = 50
+const context = new AudioContext()
+const speed  = 25
+
 // Average case: 0(n^2)
 // Best case: 0(1)
 // Space: 0(1)
@@ -8,19 +10,20 @@ const speed  = 50
 // It iterates through the array until no swaps were made or it has reached the end of the array 
 
 export async function bubbleSort (arr) {
-    console.log(o)
     const length = arr.length
     for (let i = 0; i < length; i++) {
         let swapped = false
         for (let j = 0; j < length - i - 1; j++) {
-
             const currentVal = arr[j], 
                 nextVal = arr[j + 1],
                 $current = $("#" + currentVal),
-                $next = $("#" + nextVal)
-            
+                $next = $("#" + nextVal),
+                currentAudio = createAudio(currentVal, length),
+                compareAudio = createAudio(nextVal, length)
             $current.addClass("selected")
+            currentAudio.start()
             await sleep(speed)
+            compareAudio.start()
             $current.removeClass("selected").addClass("comparing")
             $next.addClass("comparing")
             await sleep(speed)
@@ -31,12 +34,14 @@ export async function bubbleSort (arr) {
             }
             $current.removeClass("comparing")
             $next.removeClass("comparing")
+            compareAudio.stop()
+            currentAudio.stop()
         }
         if (!swapped) {
             break
         }
     }
-    finalPass(arr)
+    await finalPass(arr)
 }
 
 // Time Complexity 0(n^2)
@@ -126,9 +131,19 @@ export function selectionSort (arr) {
 
 async function finalPass (arr) {
     for (let num of arr) {
+        const audio = createAudio(num)
         $("#" + num).addClass("sorted")
+        audio.start()
         await sleep(speed)
+        audio.stop()
     }
+}
+
+function createAudio (value) {
+    const audio = context.createOscillator()
+    const frequency = (440 * (2 ** ((value - 27) / 12))) + 130.8
+    audio.type = "sine", audio.connect(context.destination), audio.frequency.value = frequency
+    return audio
 }
 
 function sleep (ms) {
