@@ -28,7 +28,15 @@ body {
 }
 
 .selected {
+    background-color: blue;
+}
+
+.comparing {
     background-color: red;
+}
+
+.sorted {
+    background-color: green;
 }
 
   
