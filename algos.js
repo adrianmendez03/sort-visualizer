@@ -1,5 +1,5 @@
 const context = new AudioContext()
-const speed  = 25
+const speed  = 0
 
 // Average case: 0(n^2)
 // Best case: 0(1)
@@ -11,19 +11,19 @@ const speed  = 25
 
 export async function bubbleSort (arr) {
     const length = arr.length
+    const audio = createAudio((arr[0] + arr[1]) / 2, length)
+    audio.start()
     for (let i = 0; i < length; i++) {
         let swapped = false
         for (let j = 0; j < length - i - 1; j++) {
             const currentVal = arr[j], 
                 nextVal = arr[j + 1],
                 $current = $("#" + currentVal),
-                $next = $("#" + nextVal),
-                currentAudio = createAudio(currentVal, length),
-                compareAudio = createAudio(nextVal, length)
+                $next = $("#" + nextVal)
+            audio.frequency.value = createFreq(currentVal, length)
             $current.addClass("selected")
-            currentAudio.start()
             await sleep(speed)
-            compareAudio.start()
+            audio.frequency.value = createFreq((currentVal + nextVal) / 2, length)
             $current.removeClass("selected").addClass("comparing")
             $next.addClass("comparing")
             await sleep(speed)
@@ -34,10 +34,9 @@ export async function bubbleSort (arr) {
             }
             $current.removeClass("comparing")
             $next.removeClass("comparing")
-            compareAudio.stop()
-            currentAudio.stop()
         }
         if (!swapped) {
+            audio.stop()
             break
         }
     }
@@ -130,18 +129,23 @@ export function selectionSort (arr) {
 }
 
 async function finalPass (arr) {
+    const audio = createAudio(arr[0], arr.length)
+    audio.start()
     for (let num of arr) {
-        const audio = createAudio(num)
         $("#" + num).addClass("sorted")
-        audio.start()
+        audio.frequency.value = createFreq(num, arr.length)
         await sleep(speed)
-        audio.stop()
     }
+    audio.stop()
 }
 
-function createAudio (value) {
+function createFreq (value, length) {
+    return (value * (1000 / length)) + 130
+}
+
+function createAudio (value, length) {
     const audio = context.createOscillator()
-    const frequency = (440 * (2 ** ((value - 27) / 12))) + 130.8
+    const frequency = createFreq(value, length)
     audio.type = "sine", audio.connect(context.destination), audio.frequency.value = frequency
     return audio
 }

@@ -3,8 +3,8 @@ import { bubbleSort } from "./algos.js";
 (function() {
     let $container, 
         $sortBtn,
-        step = 9, 
-        max = 40, 
+        step = 4, 
+        max = 200, 
         nums = generateNums()
 
     function generateNums () {
@@ -17,7 +17,7 @@ import { bubbleSort } from "./algos.js";
 
     function drawNums () {
         let width = Math.floor(($container.width() - 25) / max)
-        const gap = (width * 0.02) + 'px'
+        const gap = (width * 0.05) + 'px'
         for (let i = 0; i < nums.length; i++) {
             const $div = $("<div>").addClass("idle").width(width).height(step * nums[i]).css("margin", "0" + gap).attr("id", nums[i])
             $container.append($div)
