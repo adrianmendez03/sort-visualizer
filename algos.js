@@ -1,5 +1,5 @@
 const context = new AudioContext()
-const speed  = 0
+const speed  = 10
 
 // Average case: 0(n^2)
 // Best case: 0(1)
@@ -146,7 +146,9 @@ function createFreq (value, length) {
 function createAudio (value, length) {
     const audio = context.createOscillator()
     const frequency = createFreq(value, length)
-    audio.type = "sine", audio.connect(context.destination), audio.frequency.value = frequency
+    const gainNode = context.createGain()
+    gainNode.gain.value = .50
+    audio.type = "sine", audio.connect(gainNode).connect(context.destination), audio.frequency.value = frequency
     return audio
 }
 

@@ -3,8 +3,8 @@ import { bubbleSort } from "./algos.js";
 (function() {
     let $container, 
         $sortBtn,
-        step = 4, 
-        max = 200, 
+        step = 35, 
+        max = 25, 
         nums = generateNums()
 
     function generateNums () {
