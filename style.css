@@ -1,6 +1,6 @@
 :root {
     --primary: #fafafa;
-    --secondary: #e3f2fd;
+    --secondary: rgb(0, 149, 255);
     --accent: #db5461
 
 }
@@ -23,20 +23,20 @@ body {
     justify-content: center;
 }
 
-.idle {
-    background-color: var(--secondary);
+.segment {
+    border-radius: 5px;
 }
 
-.selected {
-    background-color: blue;
+.idle {
+    background-color: rgba(0, 148, 253, .30);
 }
 
 .comparing {
-    background-color: red;
+    background-color: rgba(226, 51, 51, .50);
 }
 
 .sorted {
-    background-color: green;
+    background-color: rgba(9, 134, 9, .5);
 }
 
   

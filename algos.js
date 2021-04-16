@@ -16,22 +16,26 @@ export async function bubbleSort (arr) {
     for (let i = 0; i < length; i++) {
         let swapped = false
         for (let j = 0; j < length - i - 1; j++) {
+
             const currentVal = arr[j], 
                 nextVal = arr[j + 1],
                 $current = $("#" + currentVal),
                 $next = $("#" + nextVal)
+
             audio.frequency.value = createFreq(currentVal, length)
-            $current.addClass("selected")
-            await sleep(speed)
             audio.frequency.value = createFreq((currentVal + nextVal) / 2, length)
-            $current.removeClass("selected").addClass("comparing")
+
+            $current.addClass("comparing")
             $next.addClass("comparing")
+
             await sleep(speed)
+
             if (currentVal > nextVal) {
                 [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
                 $current.insertAfter($next)
                 swapped = true
             }
+            
             $current.removeClass("comparing")
             $next.removeClass("comparing")
         }
