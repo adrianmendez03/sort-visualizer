@@ -1,5 +1,8 @@
+import { updateComparisions, updateTime } from './ui.js'
+
 const context = new AudioContext()
 const speed  = 10
+let comparisons = 0, time = 0
 
 // Average case: 0(n^2)
 // Best case: 0(1)
@@ -16,7 +19,7 @@ export async function bubbleSort (arr) {
     for (let i = 0; i < length; i++) {
         let swapped = false
         for (let j = 0; j < length - i - 1; j++) {
-
+            updateComparisions(comparisons)
             const currentVal = arr[j], 
                 nextVal = arr[j + 1],
                 $current = $("#" + currentVal),
@@ -29,7 +32,7 @@ export async function bubbleSort (arr) {
             $next.addClass("comparing")
 
             await sleep(speed)
-
+            comparisons++
             if (currentVal > nextVal) {
                 [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
                 $current.insertAfter($next)
@@ -45,6 +48,7 @@ export async function bubbleSort (arr) {
         }
     }
     await finalPass(arr)
+    comparisons = 0 
 }
 
 // Time Complexity 0(n^2)
@@ -151,7 +155,7 @@ function createAudio (value, length) {
     const audio = context.createOscillator()
     const frequency = createFreq(value, length)
     const gainNode = context.createGain()
-    gainNode.gain.value = .50
+    gainNode.gain.value = .20
     audio.type = "sine", audio.connect(gainNode).connect(context.destination), audio.frequency.value = frequency
     return audio
 }
