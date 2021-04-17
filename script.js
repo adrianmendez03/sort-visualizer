@@ -50,8 +50,8 @@ import {
 
     function drawStats () {
         const $statsContainer = $("<div>").attr("id", "stats-container")
-        const $comparisons = $("<span>").attr("id", "comparisons").text("comparisons: ")
-        const $time = $("<span>").attr("id", "time").text("time: ")
+        const $comparisons = $("<div>").attr("id", "comparisons").html("<div>comparisons</div><div class='counter'>0</div>")
+        const $time = $("<div>").attr("id", "time").html("<div>time</div><div class='counter'>0</div>")
         $statsContainer.append($comparisons).append($time)
         $statsContainer.insertAfter($("#sort-container"))
     }

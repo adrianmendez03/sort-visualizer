@@ -1,7 +1,7 @@
 import { updateComparisions, updateTime } from './ui.js'
 
 const context = new AudioContext()
-const speed  = 10
+const speed  = 0
 let comparisons = 0, time = 0
 
 // Average case: 0(n^2)

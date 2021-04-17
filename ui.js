@@ -1,7 +1,7 @@
 export function updateComparisions (value) {
-    $("#comparisons").text("comparisons: " + value)
+    $("#comparisons .counter").text(value)
 }
 
 export function updateTime (value) {
-    $("#time").text("time: " + value)
+    $("#time .counter").text(value)
 }
