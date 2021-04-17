@@ -30,7 +30,7 @@ import {
 
     function drawDropdown () {
         const algos = ['bubble', 'insertion', 'merge', 'selection']
-        const $select = $("<select>").attr("id", "algo-select")
+        const $select = $("<select>").attr("id", "algo-select").addClass("uppercase")
         for (let algo of algos) {
             const $option = $("<option>").attr("value", algo).text(algo)
             $select.append($option)
@@ -49,7 +49,7 @@ import {
     }
 
     function drawStats () {
-        const $statsContainer = $("<div>").attr("id", "stats-container")
+        const $statsContainer = $("<div>").attr("id", "stats-container").addClass("uppercase")
         const $comparisons = $("<div>").attr("id", "comparisons").html("<div>comparisons</div><div class='counter'>0</div>")
         const $time = $("<div>").attr("id", "time").html("<div>time</div><div class='counter'>0</div>")
         $statsContainer.append($comparisons).append($time)
