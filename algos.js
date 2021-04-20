@@ -1,7 +1,5 @@
-import { updateComparisions, updateTime } from './ui.js'
-
-const context = new AudioContext()
-const speed  = 0 
+import { updateComparisions } from './ui.js'
+import { createFreq, createAudio } from './audio.js'
 let comparisons = 0, time = 0
 
 // Average case: 0(n^2)
@@ -12,7 +10,7 @@ let comparisons = 0, time = 0
 // It swaps those numbers if nums[j] > nums[j + 1]. It does this repeatedly until it reaches the end of the array.
 // It iterates through the array until no swaps were made or it has reached the end of the array 
 
-export async function bubbleSort (arr) {
+export async function bubbleSort (arr, speed) {
     const length = arr.length
     const audio = createAudio((arr[0] + arr[1]) / 2, length)
     audio.start()
@@ -47,7 +45,7 @@ export async function bubbleSort (arr) {
             break
         }
     }
-    await finalPass(arr)
+    await finalPass(arr, speed)
     comparisons = 0 
 }
 
@@ -59,7 +57,7 @@ export async function bubbleSort (arr) {
 // If the current number is less than, it swaps places until the current number is greater than the previous.
 // This process continues until it has iterated through the entire array.
 
-export function insertionSort(arr) {
+export function insertionSort(arr, speed) {
     for (let i = 1; i < arr.length; i++) {
         const key = arr[i]
         let j = i - 1
@@ -79,7 +77,7 @@ export function insertionSort(arr) {
 // sorted array. The actual sorting happens by looping through both halves and comparing them and finally returning your sorted half. This process repeats until
 // it reaches the top of the recursive stack.
 
-export function mergeSort (arr) {
+export function mergeSort (arr, speed) {
     if (arr.length > 1) {
         const mid = Math.floor(arr.length / 2)
 
@@ -123,7 +121,7 @@ export function mergeSort (arr) {
 // On avereage this sorting method time complexity is n^2, but what it lacks in speed it makes up for in Space as it never makes for than 0(n) swaps making
 // it useful when working with limited memory. 
 
-export function selectionSort (arr) {
+export function selectionSort (arr, speed) {
     for (let i = 0; i < arr.length; i++) {
         let minIdx = i
         for (let j = i + 1; j < arr.length; j++) {
@@ -136,7 +134,7 @@ export function selectionSort (arr) {
     return arr
 }
 
-async function finalPass (arr) {
+async function finalPass (arr, speed) {
     const audio = createAudio(arr[0], arr.length)
     audio.start()
     for (let num of arr) {
@@ -145,19 +143,6 @@ async function finalPass (arr) {
         await sleep(speed)
     }
     audio.stop()
-}
-
-function createFreq (value, length) {
-    return (value * (1000 / length)) + 130
-}
-
-function createAudio (value, length) {
-    const audio = context.createOscillator()
-    const frequency = createFreq(value, length)
-    const gainNode = context.createGain()
-    gainNode.gain.value = .20
-    audio.type = "sine", audio.connect(gainNode).connect(context.destination), audio.frequency.value = frequency
-    return audio
 }
 
 function sleep (ms) {

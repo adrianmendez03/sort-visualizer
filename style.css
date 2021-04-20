@@ -67,10 +67,11 @@ button {
     flex-direction: row;
     align-items: flex-end;
     justify-content: center;
+    height: 300px;
 }
 
 .segment {
-    border-radius: 10px;
+    border-radius: 25px;
 }
 
 .idle {

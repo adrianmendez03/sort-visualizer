@@ -3,18 +3,19 @@ import {
 } from "./algos.js";
 import {
     updateComparisions,
-    updateTime
+    updateTime,
+    handleSlideChange
 } from './ui.js'
 
 (function() {
-    let $container,
-        $body,
-        step = 10, 
-        max = 25, 
-        nums = generateNums()
+    let $container, controls = {
+        length: 25,
+        nums: [],
+        speed: 50
+    }
 
     function newArray () {
-        nums = generateNums()
+        controls.nums = generateNums()
         drawNums()
         updateComparisions(0)
         updateTime(0)
@@ -22,8 +23,8 @@ import {
 
     function generateNums () {
         const unique = new Set()
-        while (unique.size < max) {
-            unique.add(Math.floor(Math.random() * max) + 1)
+        while (unique.size < controls.length) {
+            unique.add(Math.floor(Math.random() * controls.length) + 1)
         }
         return [...unique]
     }
@@ -40,10 +41,10 @@ import {
 
     function drawNums () {
         $container.empty()
-        let width = Math.floor(($container.width() - 25) / max)
-        const gap = (width * 0.05) + 'px'
-        for (let i = 0; i < nums.length; i++) {
-            const $div = $("<div>").addClass("idle segment").width(width).height(step * nums[i]).css("margin", "0" + gap).attr("id", nums[i])
+        let width = ($container.width() - 10) / controls.length
+        const gap = '0px'
+        for (let i = 0; i < controls.length; i++) {
+            const $div = $("<div>").addClass("idle segment").width(width).height(($container.height() / controls.length) * controls.nums[i]).attr("id", controls.nums[i])
             $container.append($div)
         }
     }
@@ -60,7 +61,7 @@ import {
         switch(method) {
             case 'bubble':
                 console.log('Sorting: ', method)
-                bubbleSort(nums)
+                bubbleSort(controls.nums, speed)
                 break
             case 'insertion':
                 console.log('Sorting: ', method)
@@ -79,6 +80,8 @@ import {
 
     function init () {
         $container = $("#sort-container")
+        controls.nums = generateNums()
+        console.log(controls.nums)
         drawDropdown()
         drawNums()
         drawStats()
@@ -87,5 +90,6 @@ import {
     // EVENT LISTENERS
     $("#sort-btn").on("click", () => sort('bubble'))
     $("#new-arr-btn").on("click", newArray)
+    $("#inputs-container input").on("change", event => handleSlideChange(event))
     document.addEventListener('DOMContentLoaded', init)
 })()
