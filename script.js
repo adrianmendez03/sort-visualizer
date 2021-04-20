@@ -1,10 +1,7 @@
-import { 
-    bubbleSort
-} from "./algos.js";
+import { bubbleSort } from "./algos.js";
 import {
     updateComparisions,
-    updateTime,
-    handleSlideChange
+    updateTime
 } from './ui.js'
 
 (function() {
@@ -42,7 +39,6 @@ import {
     function drawNums () {
         $container.empty()
         let width = ($container.width() - 10) / controls.length
-        const gap = '0px'
         for (let i = 0; i < controls.length; i++) {
             const $div = $("<div>").addClass("idle segment").width(width).height(($container.height() / controls.length) * controls.nums[i]).attr("id", controls.nums[i])
             $container.append($div)
@@ -57,11 +53,28 @@ import {
         $statsContainer.insertAfter($("#sort-container"))
     }
 
+    function handleSlideChange (event) {
+        const name = event.target.name
+        const value = parseInt(event.target.value)
+        if (name === 'length') {
+            controls = {
+                ...controls,
+                [name]: value
+            }
+            controls.nums = generateNums()
+            drawNums()
+        } else {
+            controls = {
+                ...controls,
+                [name]: 100 - value
+            }
+        }
+    }
+
     async function sort(method = 'bubble') {
         switch(method) {
             case 'bubble':
-                console.log('Sorting: ', method)
-                bubbleSort(controls.nums, speed)
+                bubbleSort(controls.nums, controls.speed)
                 break
             case 'insertion':
                 console.log('Sorting: ', method)
@@ -81,7 +94,6 @@ import {
     function init () {
         $container = $("#sort-container")
         controls.nums = generateNums()
-        console.log(controls.nums)
         drawDropdown()
         drawNums()
         drawStats()
