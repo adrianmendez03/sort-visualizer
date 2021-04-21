@@ -1,4 +1,7 @@
-import { bubbleSort } from "./algos.js";
+import { 
+    bubbleSort,
+    insertionSort
+} from "./algos.js";
 import {
     updateComparisions,
     updateTime
@@ -82,6 +85,7 @@ import {
                 bubbleSort(controls.nums, controls.speed)
                 break
             case 'insertion':
+                insertionSort(controls.nums, controls.speed)
                 break
             case 'merge':
                 break

@@ -13,27 +13,30 @@ let comparisons = 0
 
 export async function bubbleSort (arr, speed) {
     
-    const { length, start, audio } = format(arr)
+    const { length, start, audio } = setUp(arr)
     audio.start()
 
     for (let i = 0; i < length; i++) {
         let swapped = false
         for (let j = 0; j < length - i - 1; j++) {
+            // UI Functions
             updateComparisions(comparisons)
             updateTime(time.end() - start)
+
             const currentVal = arr[j], 
                 nextVal = arr[j + 1],
                 $current = $("#" + currentVal),
                 $next = $("#" + nextVal)
 
-            audio.frequency.value = createFreq(currentVal, length)
-            audio.frequency.value = createFreq((currentVal + nextVal) / 2, length)
-
+            // Change the pitch of the tone
             $current.addClass("comparing")
             $next.addClass("comparing")
+            audio.frequency.value = createFreq((currentVal + nextVal) / 2, length)
+            // audio.frequency.value = createFreq(nextVal, length)
 
             await sleep(speed)
             comparisons++
+
             if (currentVal > nextVal) {
                 [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
                 $current.insertAfter($next)
@@ -61,17 +64,43 @@ export async function bubbleSort (arr, speed) {
 // If the current number is less than, it swaps places until the current number is greater than the previous.
 // This process continues until it has iterated through the entire array.
 
-export function insertionSort(arr, speed) {
-    for (let i = 1; i < arr.length; i++) {
-        const key = arr[i]
-        let j = i - 1
+export async function insertionSort(arr, speed) {
+
+    const { length, start, audio } = setUp(arr)
+    audio.start()
+
+    for (let i = 1; i < length; i++) {
+        let key = arr[i], $key = $("#" + arr[i + 1]), j = i - 1
+        $key.addClass("sorted")
         while (j >= 0 && key < arr[j]) {
-            arr[j + 1] = arr[j]
+            comparisons++
+            // V: update the UI
+            updateComparisions(comparisons)
+            updateTime(time.end() - start)
+            // V: create variables to hold the values you're comparing
+            let $current = $("#" + arr[j]), $next = $("#" + arr[j + 1])
+            // V: add the class comparing, change the pitch and time the function out
+            $current.addClass("comparing")
+            audio.frequency.value = createFreq((arr[j] + arr[j + 1]) / 2, length)
+            // audio.frequency.value = createFreq(arr[j], length)
+            $next.addClass("comparing")
+            await sleep(speed);
+            // A: this does the under the hood swap
+            [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
+            // V: this does the visual swap
+            $current.insertAfter($next)
+            // V: remove the compare class
+            $current.removeClass("comparing")
+            $next.removeClass("comparing")
+            // A:
             j--
         }
-        arr[j + 1] = key 
+        // A:
+        arr[j + 1] = key
+        $key.removeClass("sorted")
     }
-    return arr
+    audio.stop()
+    await finalPass(arr, speed)
 }
 
 // Time Complexity: 0(nlogn)
@@ -138,7 +167,7 @@ export function selectionSort (arr, speed) {
     return arr
 }
 
-function format (arr) {
+function setUp (arr) {
     const length = arr.length
     const start = time.start()
     const audio = createAudio((arr[0] + arr[1]) / 2, length)
