@@ -12,10 +12,10 @@ let comparisons = 0
 // It iterates through the array until no swaps were made or it has reached the end of the array 
 
 export async function bubbleSort (arr, speed) {
-    const start = time.start()
-    const length = arr.length
-    const audio = createAudio((arr[0] + arr[1]) / 2, length)
+    
+    const { length, start, audio } = format(arr)
     audio.start()
+
     for (let i = 0; i < length; i++) {
         let swapped = false
         for (let j = 0; j < length - i - 1; j++) {
@@ -48,7 +48,7 @@ export async function bubbleSort (arr, speed) {
             break
         }
     }
-    const end = time.end() - start
+
     await finalPass(arr, speed)
     comparisons = 0 
 }
@@ -136,6 +136,13 @@ export function selectionSort (arr, speed) {
         [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]]
     }
     return arr
+}
+
+function format (arr) {
+    const length = arr.length
+    const start = time.start()
+    const audio = createAudio((arr[0] + arr[1]) / 2, length)
+    return { length, start, audio }
 }
 
 async function finalPass (arr, speed) {
