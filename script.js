@@ -6,6 +6,7 @@ import {
 
 (function() {
     let $container, controls = {
+        method: 'bubble',
         length: 25,
         nums: [],
         speed: 50
@@ -33,6 +34,7 @@ import {
             const $option = $("<option>").attr("value", algo).text(algo)
             $select.append($option)
         }
+        $select.on('change', event => controls.method = event.target.value)
         $("body").prepend($select)
     }
 
@@ -72,22 +74,20 @@ import {
         }
     }
 
-    async function sort(method = 'bubble') {
-        switch(method) {
+
+    async function sort() {
+        console.log(controls.method)
+        switch(controls.method) {
             case 'bubble':
                 bubbleSort(controls.nums, controls.speed)
                 break
             case 'insertion':
-                console.log('Sorting: ', method)
                 break
             case 'merge':
-                console.log('Sorting: ', method)
                 break
             case 'selection':
-                console.log('Sorting: ', method)
                 break
             default:
-                console.log('Sorting: ', method)
                 break
         }
     }
@@ -101,7 +101,7 @@ import {
     }
 
     // EVENT LISTENERS
-    $("#sort-btn").on("click", () => sort('bubble'))
+    $("#sort-btn").on("click", sort)
     $("#new-arr-btn").on("click", newArray)
     $("#inputs-container input").on("change", event => handleSlideChange(event))
     document.addEventListener('DOMContentLoaded', init)
