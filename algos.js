@@ -1,6 +1,7 @@
-import { updateComparisions } from './ui.js'
+import { updateComparisions, updateTime } from './ui.js'
 import { createFreq, createAudio } from './audio.js'
-let comparisons = 0, time = 0
+import { time } from './time.js'
+let comparisons = 0
 
 // Average case: 0(n^2)
 // Best case: 0(1)
@@ -11,6 +12,7 @@ let comparisons = 0, time = 0
 // It iterates through the array until no swaps were made or it has reached the end of the array 
 
 export async function bubbleSort (arr, speed) {
+    const start = time.start()
     const length = arr.length
     const audio = createAudio((arr[0] + arr[1]) / 2, length)
     audio.start()
@@ -18,6 +20,7 @@ export async function bubbleSort (arr, speed) {
         let swapped = false
         for (let j = 0; j < length - i - 1; j++) {
             updateComparisions(comparisons)
+            updateTime(time.end() - start)
             const currentVal = arr[j], 
                 nextVal = arr[j + 1],
                 $current = $("#" + currentVal),
@@ -45,6 +48,7 @@ export async function bubbleSort (arr, speed) {
             break
         }
     }
+    const end = time.end() - start
     await finalPass(arr, speed)
     comparisons = 0 
 }

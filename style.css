@@ -102,6 +102,10 @@ button {
     width: 150px;
     text-align: center;
 }
+
+#ms {
+    margin-left: 2px;
+}
 /* END OF STATS CONTAINER */
 
 /* MENU */

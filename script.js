@@ -48,7 +48,7 @@ import {
     function drawStats () {
         const $statsContainer = $("<div>").attr("id", "stats-container").addClass("uppercase")
         const $comparisons = $("<div>").attr("id", "comparisons").html("<div>comparisons</div><div class='counter'>0</div>")
-        const $time = $("<div>").attr("id", "time").html("<div>time</div><div class='counter'>0</div>")
+        const $time = $("<div>").attr("id", "time").html("<div>time</div><div><span class='counter'>0</span><span id='ms'>ms</span></div>")
         $statsContainer.append($comparisons).append($time)
         $statsContainer.insertAfter($("#sort-container"))
     }
@@ -64,9 +64,10 @@ import {
             controls.nums = generateNums()
             drawNums()
         } else {
+            const { max } = event.target
             controls = {
                 ...controls,
-                [name]: 100 - value
+                [name]: max - value
             }
         }
     }
