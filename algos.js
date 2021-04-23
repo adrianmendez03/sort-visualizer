@@ -19,30 +19,32 @@ export async function bubbleSort (arr, speed) {
     for (let i = 0; i < length; i++) {
         let swapped = false
         for (let j = 0; j < length - i - 1; j++) {
-            // UI Functions
-            updateComparisions(comparisons)
+            // Visual: Update the time
             updateTime(time.end() - start)
-
+            // Visual/Algo: Create values and reference segments
             const currentVal = arr[j], 
                 nextVal = arr[j + 1],
                 $current = $("#" + currentVal),
                 $next = $("#" + nextVal)
 
-            // Change the pitch of the tone
+            // Visual: add the compare class and change the pitch
             $current.addClass("comparing")
             $next.addClass("comparing")
             audio.frequency.value = createFreq((currentVal + nextVal) / 2, length)
-            // audio.frequency.value = createFreq(nextVal, length)
-
             await sleep(speed)
+            // Visual: update the comparisons
             comparisons++
-
+            updateComparisions(comparisons)
+            // Algo: Secret sauce for bubble sort
             if (currentVal > nextVal) {
+                // Algo: Swap the nums if currentVal is bigger than nextVal
                 [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
+                // Visual: Visually swap the segmmnts
                 $current.insertAfter($next)
+                // Algo: Let the algo know we swapped some values
                 swapped = true
             }
-            
+            // Visual: Remove compare class
             $current.removeClass("comparing")
             $next.removeClass("comparing")
         }
@@ -51,7 +53,6 @@ export async function bubbleSort (arr, speed) {
             break
         }
     }
-
     await finalPass(arr, speed)
     comparisons = 0 
 }
@@ -101,6 +102,7 @@ export async function insertionSort(arr, speed) {
     }
     audio.stop()
     await finalPass(arr, speed)
+    comparisons = 0
 }
 
 // Time Complexity: 0(nlogn)
