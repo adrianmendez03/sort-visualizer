@@ -1,6 +1,8 @@
 import { 
     bubbleSort,
-    insertionSort
+    insertionSort,
+    mergeSort,
+    selectionSort
 } from "./algos.js";
 import {
     updateComparisions,
@@ -88,8 +90,10 @@ import {
                 insertionSort(controls.nums, controls.speed)
                 break
             case 'merge':
+                mergeSort(controls.nums, controls.speed)
                 break
             case 'selection':
+                selectionSort(controls.nums, controls.speed)
                 break
             default:
                 break

@@ -15,6 +15,7 @@ export async function bubbleSort (arr, speed) {
     
     const { length, start, audio } = setUp(arr)
     audio.start()
+    updateComparisions(comparisons)
 
     for (let i = 0; i < length; i++) {
         let swapped = false
@@ -71,8 +72,13 @@ export async function insertionSort(arr, speed) {
     audio.start()
 
     for (let i = 1; i < length; i++) {
+        // A: Store variables
         let key = arr[i], $key = $("#" + arr[i + 1]), j = i - 1
+        // V: 
         $key.addClass("sorted")
+        comparisons++
+        updateComparisions(comparisons)
+        await sleep(speed)
         while (j >= 0 && key < arr[j]) {
             comparisons++
             // V: update the UI
@@ -112,7 +118,7 @@ export async function insertionSort(arr, speed) {
 // sorted array. The actual sorting happens by looping through both halves and comparing them and finally returning your sorted half. This process repeats until
 // it reaches the top of the recursive stack.
 
-export function mergeSort (arr, speed) {
+export async function mergeSort (arr, speed) {
     if (arr.length > 1) {
         const mid = Math.floor(arr.length / 2)
 
@@ -122,7 +128,7 @@ export function mergeSort (arr, speed) {
         mergeSort(left)
         mergeSort(right)
 
-        let i = j = k = 0
+        let i = 0, j = 0, k = 0
         
         while (i < left.length && j < right.length) {
             if (left[i] < right[j]) {
@@ -146,7 +152,7 @@ export function mergeSort (arr, speed) {
         }
 
     }
-    return arr
+    console.log(arr)
 }
 
 // Time complexity 0(n^2) as there are two nested loops
@@ -156,12 +162,13 @@ export function mergeSort (arr, speed) {
 // On avereage this sorting method time complexity is n^2, but what it lacks in speed it makes up for in Space as it never makes for than 0(n) swaps making
 // it useful when working with limited memory. 
 
-export function selectionSort (arr, speed) {
+export async function selectionSort (arr, speed) {
     for (let i = 0; i < arr.length; i++) {
         let minIdx = i
         for (let j = i + 1; j < arr.length; j++) {
             if (arr[minIdx] > arr[j]) {
                 minIdx = j
+                $min = $("#" + arr[j])
             }
         }
         [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]]
