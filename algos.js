@@ -69,6 +69,7 @@ export async function bubbleSort (arr, speed) {
 export async function insertionSort(arr, speed) {
 
     const { length, start, audio } = setUp(arr)
+
     audio.start()
 
     for (let i = 1; i < length; i++) {
@@ -163,17 +164,61 @@ export async function mergeSort (arr, speed) {
 // it useful when working with limited memory. 
 
 export async function selectionSort (arr, speed) {
-    for (let i = 0; i < arr.length; i++) {
+
+    const { length, start, audio } = setUp(arr)
+    const minAudio = createAudio(arr[0], length)
+    audio.start()
+    minAudio.start()
+
+    for (let i = 0; i < length; i++) {
+        // A: Initialize the minimum value index
         let minIdx = i
-        for (let j = i + 1; j < arr.length; j++) {
+        // V: Visualize the minimum value which when the loop runs is the first value
+        $("#" + arr[i]).addClass("comparing")
+        minAudio.frequency.value = createFreq(arr[minIdx], length)
+        await sleep(speed)
+        for (let j = i + 1; j < length; j++) {
+            // V: Create variable to hold the current value and highlight it
+            const $curr = $("#" + arr[j])
+            $curr.addClass("comparing")
+            audio.frequency.value = createFreq(arr[j], length)
+            await sleep(speed)
+            // V: Increase the comparisons
+            comparisons++
+            updateTime(time.end() - start)
+            updateComparisions(comparisons)
+            // A: If the current value is less than the minimum we need to update the minimum
             if (arr[minIdx] > arr[j]) {
+                // V: Remove the highlight from what will be the old minimum
+                $("#" + arr[minIdx]).removeClass("comparing")
+                // A: Update the min index for the algo 
                 minIdx = j
-                $min = $("#" + arr[j])
+                $("#" + arr[minIdx]).addClass("comparing")
+                minAudio.frequency.value = createFreq(arr[minIdx], length)
+                await sleep(speed)
+            } else {
+                $curr.removeClass("comparing")
             }
         }
+        // A: This does the actual swap 
         [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]]
+        // V: Create variables to hold the current and the minimum
+        const $curr = $("#" + arr[i]), $min = $("#" + arr[minIdx])
+        // V: Swap them 
+        swap($curr, $min)
+        await sleep(speed)
+        // V: Remove compare class
+        $min.removeClass("comparing")
+        $curr.removeClass("comparing")
     }
-    return arr
+    // V: Stop the audio 
+    audio.stop()
+    minAudio.stop()
+    // V: Final Pass
+    await finalPass(arr, speed)
+    // V: Reset comparisons
+    comparisons = 0
+
 }
 
 function setUp (arr) {
@@ -181,6 +226,15 @@ function setUp (arr) {
     const start = time.start()
     const audio = createAudio((arr[0] + arr[1]) / 2, length)
     return { length, start, audio }
+}
+
+function swap (a, b) {
+    // create a temporary marker div
+    var aNext = $('<div>').insertAfter(a);
+    a.insertAfter(b);
+    b.insertBefore(aNext);
+    // remove marker div
+    aNext.remove();
 }
 
 async function finalPass (arr, speed) {
