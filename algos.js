@@ -69,7 +69,6 @@ export async function bubbleSort (arr, speed) {
 export async function insertionSort(arr, speed) {
 
     const { length, start, audio } = setUp(arr)
-
     audio.start()
 
     for (let i = 1; i < length; i++) {
@@ -126,34 +125,42 @@ export async function mergeSort (arr, speed) {
         const left = arr.slice(0, mid)
         const right = arr.slice(mid)
 
-        mergeSort(left)
-        mergeSort(right)
+        mergeSort(left, speed)
+        mergeSort(right, speed)
 
         let i = 0, j = 0, k = 0
         
         while (i < left.length && j < right.length) {
+            const $left = $("#" + left[i]), $right = $("#" + right[j]), $curr = $("#" + arr[k]), $temp = $curr.clone()
             if (left[i] < right[j]) {
                 arr[k] = left[i]
+                $curr[0].outerHTML = $left[0].outerHTML
+                $left[0].outerHTML = $temp[0].outerHTML
                 i++
             } else {
                 arr[k] = right[j]
+                $curr[0].outerHTML = $right[0].outerHTML
                 j++
             }
             k++
         }
 
         while (i < left.length) {
+            const $left = $("#" + left[i]), $curr = $("#" + arr[k])
             arr[k] = left[i]
+            $curr[0].outerHTML = $left[0].outerHTML
+            $right[0].outerHTML = $temp[0].outerHTML
             i++, k++
         }
 
         while (j < right.length) {
+            const $right = $("#" + right[j]), $curr = $("#" + arr[k])
             arr[k] = right[j]
+            $curr[0].outerHTML = $right[0].outerHTML
+            $right[0].outerHTML = $temp[0].outerHTML
             j++, k++
         }
-
     }
-    console.log(arr)
 }
 
 // Time complexity 0(n^2) as there are two nested loops
