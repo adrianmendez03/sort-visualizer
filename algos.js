@@ -1,6 +1,5 @@
-import { updateComparisions, updateTime } from './ui.js'
+import { updateComparisions } from './ui.js'
 import { createFreq, createAudio } from './audio.js'
-import { time } from './time.js'
 let comparisons = 0
 
 // Average case: 0(n^2)
@@ -116,7 +115,6 @@ export async function insertionSort(arr, speed) {
 // it reaches the top of the recursive stack.
 
 export async function mergeSort (arr, speed, tools) {
-
     const { length, audio } = tools
 
     if (arr.length > 1) {
@@ -141,6 +139,10 @@ export async function mergeSort (arr, speed, tools) {
             // V: Update the audio
             audio.frequency.value = createFreq((left[i] + right[j]) / 2, length)
             await sleep(speed)
+            // A: Updating the comparisons
+            tools.comparisons++
+            updateComparisions(tools.comparisons)
+            // A & V: With each comparisons set the anchor equal to the element being inserted and increment either i or j
             if (left[i] < right[j]) {
                 anchor = left[i]
                 $left.insertAfter($anchor)
@@ -152,16 +154,19 @@ export async function mergeSort (arr, speed, tools) {
                 arr[k] = right[j]
                 j++
             }
+            // V: Remove the comparing class
             $left.removeClass("comparing")
             $right.removeClass("comparing")
             await sleep(speed)
-
+            // A: Increment K
             k++
         }
 
+        // A: if there are any other elements left add them to the end of the arr
+        // Just perform a swap 
         while (i < left.length) {
-            $("#" + left[i]).insertAfter($("#" + anchor))
             $("#" + left[i]).addClass("comparing")
+            $("#" + left[i]).insertAfter($("#" + anchor))
             anchor = left[i]
             audio.frequency.value = createFreq(left[i], length)
             await sleep(speed)
@@ -171,8 +176,8 @@ export async function mergeSort (arr, speed, tools) {
         }
 
         while (j < right.length) {
+            $("#" + right[i]).addClass("comparing")
             $("#" + right[j]).insertAfter($("#" + anchor))
-            $("#" + left[i]).addClass("comparing")
             anchor = right[j]
             audio.frequency.value = createFreq(right[j], length)
             await sleep(speed)

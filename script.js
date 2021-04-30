@@ -94,6 +94,7 @@ import {
                 break
             case 'merge':
                 const tools = setUp(nums)
+                tools.comparisons = 0
                 tools.audio.start()
                 await mergeSort(nums, speed, tools)
                 tools.audio.stop()
