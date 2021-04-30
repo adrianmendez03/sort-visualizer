@@ -125,13 +125,20 @@ export async function mergeSort (arr, speed) {
         const left = arr.slice(0, mid)
         const right = arr.slice(mid)
 
-        mergeSort(left, speed)
-        mergeSort(right, speed)
+        // await pass(left, right, speed)
+
+        // await sleep(speed)
+
+        await mergeSort(left, speed)
+        await mergeSort(right, speed)
 
         let i = 0, j = 0, k = 0, anchor = left[i] < right[j] ? left[i] : right[j]
 
         while (i < left.length && j < right.length) {
             const $left = $("#" + left[i]), $right = $("#" + right[j]), $anchor = $("#" + anchor)
+            $left.addClass("comparing")
+            $right.addClass("comparing")
+            await sleep(speed)
             if (left[i] < right[j]) {
                 anchor = left[i]
                 $left.insertAfter($anchor)
@@ -143,23 +150,32 @@ export async function mergeSort (arr, speed) {
                 arr[k] = right[j]
                 j++
             }
+            $left.removeClass("comparing")
+            $right.removeClass("comparing")
+            await sleep(speed)
             k++
         }
+
         while (i < left.length) {
             $("#" + left[i]).insertAfter($("#" + anchor))
+            $("#" + left[i]).addClass("comparing")
             anchor = left[i]
+            await sleep(speed)
             arr[k] = left[i]
+            $("#" + left[i]).removeClass("comparing")
             i++, k++
         }
 
         while (j < right.length) {
             $("#" + right[j]).insertAfter($("#" + anchor))
+            $("#" + left[i]).addClass("comparing")
+            await sleep(speed)
             anchor = right[j]
             arr[k] = right[j]
+            $("#" + right[i]).removeClass("comparing")
             j++, k++
         }
     }
-    console.log(arr)
 }
 
 // Time complexity 0(n^2) as there are two nested loops
@@ -241,6 +257,16 @@ function swap (a, b) {
     b.insertBefore(aNext);
     // remove marker div
     aNext.remove();
+}
+
+async function pass (arr, arr2, speed) {
+    let i = 0, j = 0
+    while (i < arr && j < arr2) {
+        const $left = $("#" + arr[i]), $right = $("#" + arr2[j])
+        $left.addClass("left")
+        $right.addClass("right")
+        await sleep(speed)
+    }
 }
 
 async function finalPass (arr, speed) {

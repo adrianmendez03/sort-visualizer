@@ -12,7 +12,7 @@ import {
 (function() {
     let $container, controls = {
         method: 'bubble',
-        length: 5,
+        length: 25,
         nums: [],
         speed: 50
     }
@@ -82,7 +82,7 @@ import {
 
     async function sort() {
         const { method, nums, speed } = controls
-        console.log("Original: ", nums)
+        console.log(nums)
         switch(method) {
             case 'bubble':
                 bubbleSort(nums, speed)
@@ -103,7 +103,7 @@ import {
 
     function init () {
         $container = $("#sort-container")
-        controls.nums = [1, 4, 5, 3, 2]
+        controls.nums = generateNums()
         drawDropdown()
         drawNums()
         drawStats()

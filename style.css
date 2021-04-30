@@ -86,6 +86,14 @@ button {
     background-color: var(--accent);
 }
 
+.left {
+    background: rgb(0, 238, 255);
+}
+
+.right {
+    background: rgb(152, 44, 253);
+}
+
 /* END OF SORTING CONTAINER */
 
 /* STATS CONTAINER */
@@ -106,6 +114,7 @@ button {
 #ms {
     margin-left: 2px;
 }
+
 /* END OF STATS CONTAINER */
 
 /* MENU */
