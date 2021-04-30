@@ -2,7 +2,9 @@ import {
     bubbleSort,
     insertionSort,
     mergeSort,
-    selectionSort
+    selectionSort,
+    finalPass,
+    setUp
 } from "./algos.js";
 import {
     updateComparisions,
@@ -55,7 +57,7 @@ import {
     function drawStats () {
         const $statsContainer = $("<div>").attr("id", "stats-container").addClass("uppercase")
         const $comparisons = $("<div>").attr("id", "comparisons").html("<div>comparisons</div><div class='counter'>0</div>")
-        const $time = $("<div>").attr("id", "time").html("<div>time</div><div><span class='counter'>0</span><span id='ms'>ms</span></div>")
+        const $time = $("<div>").attr("id", "time").html("<div>delay</div><div><span class='counter'>50</span><span id='ms'>ms</span></div>")
         $statsContainer.append($comparisons).append($time)
         $statsContainer.insertAfter($("#sort-container"))
     }
@@ -76,13 +78,13 @@ import {
                 ...controls,
                 [name]: max - value
             }
+            updateTime(controls[name])
         }
     }
 
 
     async function sort() {
         const { method, nums, speed } = controls
-        console.log(nums)
         switch(method) {
             case 'bubble':
                 bubbleSort(nums, speed)
@@ -91,7 +93,11 @@ import {
                 insertionSort(nums, speed)
                 break
             case 'merge':
-                mergeSort(nums, speed)
+                const tools = setUp(nums)
+                tools.audio.start()
+                await mergeSort(nums, speed, tools)
+                tools.audio.stop()
+                await finalPass(nums, speed)
                 break
             case 'selection':
                 selectionSort(nums, speed)
