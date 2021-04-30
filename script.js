@@ -12,7 +12,7 @@ import {
 (function() {
     let $container, controls = {
         method: 'bubble',
-        length: 25,
+        length: 5,
         nums: [],
         speed: 50
     }
@@ -81,19 +81,20 @@ import {
 
 
     async function sort() {
-        console.log(controls.method)
-        switch(controls.method) {
+        const { method, nums, speed } = controls
+        console.log("Original: ", nums)
+        switch(method) {
             case 'bubble':
-                bubbleSort(controls.nums, controls.speed)
+                bubbleSort(nums, speed)
                 break
             case 'insertion':
-                insertionSort(controls.nums, controls.speed)
+                insertionSort(nums, speed)
                 break
             case 'merge':
-                mergeSort(controls.nums, controls.speed)
+                mergeSort(nums, speed)
                 break
             case 'selection':
-                selectionSort(controls.nums, controls.speed)
+                selectionSort(nums, speed)
                 break
             default:
                 break
@@ -102,7 +103,7 @@ import {
 
     function init () {
         $container = $("#sort-container")
-        controls.nums = generateNums()
+        controls.nums = [1, 4, 5, 3, 2]
         drawDropdown()
         drawNums()
         drawStats()

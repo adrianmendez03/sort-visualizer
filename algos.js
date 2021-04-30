@@ -128,39 +128,38 @@ export async function mergeSort (arr, speed) {
         mergeSort(left, speed)
         mergeSort(right, speed)
 
-        let i = 0, j = 0, k = 0
-        
+        let i = 0, j = 0, k = 0, anchor = left[i] < right[j] ? left[i] : right[j]
+
         while (i < left.length && j < right.length) {
-            const $left = $("#" + left[i]), $right = $("#" + right[j]), $curr = $("#" + arr[k]), $temp = $curr.clone()
+            const $left = $("#" + left[i]), $right = $("#" + right[j]), $anchor = $("#" + anchor)
             if (left[i] < right[j]) {
+                anchor = left[i]
+                $left.insertAfter($anchor)
                 arr[k] = left[i]
-                $curr[0].outerHTML = $left[0].outerHTML
-                $left[0].outerHTML = $temp[0].outerHTML
                 i++
             } else {
+                $right.insertAfter($anchor)
+                anchor = right[j]
                 arr[k] = right[j]
-                $curr[0].outerHTML = $right[0].outerHTML
                 j++
             }
             k++
         }
-
         while (i < left.length) {
-            const $left = $("#" + left[i]), $curr = $("#" + arr[k])
+            $("#" + left[i]).insertAfter($("#" + anchor))
+            anchor = left[i]
             arr[k] = left[i]
-            $curr[0].outerHTML = $left[0].outerHTML
-            $right[0].outerHTML = $temp[0].outerHTML
             i++, k++
         }
 
         while (j < right.length) {
-            const $right = $("#" + right[j]), $curr = $("#" + arr[k])
+            $("#" + right[j]).insertAfter($("#" + anchor))
+            anchor = right[j]
             arr[k] = right[j]
-            $curr[0].outerHTML = $right[0].outerHTML
-            $right[0].outerHTML = $temp[0].outerHTML
             j++, k++
         }
     }
+    console.log(arr)
 }
 
 // Time complexity 0(n^2) as there are two nested loops
