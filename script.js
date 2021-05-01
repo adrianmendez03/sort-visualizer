@@ -9,7 +9,7 @@ import {
     updateComparisions,
     updateTime
 } from './ui.js'
-import { audioObj, createContext, resumeContext } from './audio.js'
+import { audioObj, createContext } from './audio.js'
 
 (function() {
     let $container, 
@@ -97,7 +97,6 @@ import { audioObj, createContext, resumeContext } from './audio.js'
         controls.mute = controls.mute ? false : true
 
         if (audioObj.context) {
-            console.log(mute)
             audioObj.gainNode.gain.value = controls.mute ? 0 : .20
         }
     }

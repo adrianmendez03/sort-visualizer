@@ -15,10 +15,6 @@ export function createContext (mute) {
     audioObj.audio.connect(audioObj.gainNode).connect(context.destination)
 }
 
-export function resumeContext() {
-    context.resume()
-}
-
 export function createFreq (value, length) {
     return (value * (1000 / length)) + 130
 }
