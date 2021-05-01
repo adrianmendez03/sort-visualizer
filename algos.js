@@ -1,5 +1,5 @@
 import { updateComparisions } from './ui.js'
-import { createFreq } from './audio.js'
+import { createFreq, audioObj } from './audio.js'
 let comparisons = 0
 
 // Average case: 0(n^2)
@@ -47,7 +47,6 @@ export async function bubbleSort (arr, speed) {
             break
         }
     }
-    await finalPass(arr, speed)
     comparisons = 0 
 }
 
@@ -137,20 +136,22 @@ export async function mergeSort (arr, speed, tools) {
                 anchor = left[i]
                 $left.insertAfter($anchor)
                 arr[k] = left[i]
+                $left.removeClass("comparing")
                 i++
             } else {
                 $right.insertAfter($anchor)
                 anchor = right[j]
                 arr[k] = right[j]
+                $right.removeClass("comparing")
                 j++
             }
             // V: Remove the comparing class
-            $left.removeClass("comparing")
-            $right.removeClass("comparing")
             await sleep(speed)
             // A: Increment K
             k++
         }
+        $("#" + left[i]).removeClass("comparing")
+        $("#" + right[j]).removeClass("comparing")
 
         // A: if there are any other elements left add them to the end of the arr
         // Just perform a swap 

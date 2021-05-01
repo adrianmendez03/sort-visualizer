@@ -9,7 +9,7 @@ import {
     updateComparisions,
     updateTime
 } from './ui.js'
-import { audioObj } from './audio.js'
+import { audioObj, createContext, resumeContext } from './audio.js'
 
 (function() {
     let $container, 
@@ -18,7 +18,8 @@ import { audioObj } from './audio.js'
         method: 'bubble',
         length: 25,
         nums: [],
-        speed: 50
+        speed: 50,
+        mute: false
     }
 
     function newArray () {
@@ -85,26 +86,31 @@ import { audioObj } from './audio.js'
     }
 
     function muteToggle () {
-        const state = $mute[0].classList[2]
-        if (state === "off") {
-            $mute.removeClass("off")
-            $mute.addClass("on")
-            audioObj.gainNode.gain.value = 0
-        } else {
+        if (controls.mute) {
             $mute.removeClass("on")
             $mute.addClass("off")
-            audioObj.gainNode.gain.value = .25
+        } else {
+            $mute.removeClass("off")
+            $mute.addClass("on")
+        }
+
+        controls.mute = controls.mute ? false : true
+
+        if (audioObj.context) {
+            console.log(mute)
+            audioObj.gainNode.gain.value = controls.mute ? 0 : .20
         }
     }
 
     async function sort() {
-        const { method, nums, speed } = controls
+        const { method, nums, speed, mute } = controls
+        createContext(mute)
         switch(method) {
             case 'bubble':
-                bubbleSort(nums, speed)
+                await bubbleSort(nums, speed)
                 break
             case 'insertion':
-                insertionSort(nums, speed)
+                await insertionSort(nums, speed)
                 break
             case 'merge':
                 const tools = {
@@ -112,14 +118,15 @@ import { audioObj } from './audio.js'
                     length: nums.length
                 }
                 await mergeSort(nums, speed, tools)
-                await finalPass(nums, speed)
                 break
             case 'selection':
-                selectionSort(nums, speed)
+                await selectionSort(nums, speed)
                 break
             default:
                 break
         }
+        await finalPass(nums, speed)
+        audioObj.context.close()
     }
 
     function init () {
