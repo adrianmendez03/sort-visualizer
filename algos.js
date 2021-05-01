@@ -1,5 +1,5 @@
 import { updateComparisions } from './ui.js'
-import { createFreq, createAudio } from './audio.js'
+import { createFreq } from './audio.js'
 let comparisons = 0
 
 // Average case: 0(n^2)
@@ -11,14 +11,12 @@ let comparisons = 0
 // It iterates through the array until no swaps were made or it has reached the end of the array 
 
 export async function bubbleSort (arr, speed) {
-    
-    const { length, audio } = setUp(arr)
-    audio.start()
+
     updateComparisions(comparisons)
 
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < arr.length; i++) {
         let swapped = false
-        for (let j = 0; j < length - i - 1; j++) {
+        for (let j = 0; j < arr.length - i - 1; j++) {
             // Visual/Algo: Create values and reference segments
             const currentVal = arr[j], 
                 nextVal = arr[j + 1],
@@ -28,7 +26,6 @@ export async function bubbleSort (arr, speed) {
             // Visual: add the compare class and change the pitch
             $current.addClass("comparing")
             $next.addClass("comparing")
-            audio.frequency.value = createFreq((currentVal + nextVal) / 2, length)
             await sleep(speed)
             // Visual: update the comparisons
             comparisons++
@@ -47,7 +44,6 @@ export async function bubbleSort (arr, speed) {
             $next.removeClass("comparing")
         }
         if (!swapped) {
-            audio.stop()
             break
         }
     }
@@ -65,10 +61,7 @@ export async function bubbleSort (arr, speed) {
 
 export async function insertionSort(arr, speed) {
 
-    const { length, audio } = setUp(arr)
-    audio.start()
-
-    for (let i = 1; i < length; i++) {
+    for (let i = 1; i < arr.length; i++) {
         // A: Store variables
         let key = arr[i], $key = $("#" + arr[i + 1]), j = i - 1
         // V: 
@@ -84,7 +77,6 @@ export async function insertionSort(arr, speed) {
             let $current = $("#" + arr[j]), $next = $("#" + arr[j + 1])
             // V: add the class comparing, change the pitch and time the function out
             $current.addClass("comparing")
-            audio.frequency.value = createFreq((arr[j] + arr[j + 1]) / 2, length)
             // audio.frequency.value = createFreq(arr[j], length)
             $next.addClass("comparing")
             await sleep(speed);
@@ -102,7 +94,6 @@ export async function insertionSort(arr, speed) {
         arr[j + 1] = key
         $key.removeClass("sorted")
     }
-    audio.stop()
     await finalPass(arr, speed)
     comparisons = 0
 }
@@ -115,7 +106,7 @@ export async function insertionSort(arr, speed) {
 // it reaches the top of the recursive stack.
 
 export async function mergeSort (arr, speed, tools) {
-    const { length, audio } = tools
+    const { length } = tools
 
     if (arr.length > 1) {
         // A: Find the middle of the array 
@@ -137,7 +128,6 @@ export async function mergeSort (arr, speed, tools) {
             $left.addClass("comparing")
             $right.addClass("comparing")
             // V: Update the audio
-            audio.frequency.value = createFreq((left[i] + right[j]) / 2, length)
             await sleep(speed)
             // A: Updating the comparisons
             tools.comparisons++
@@ -168,7 +158,6 @@ export async function mergeSort (arr, speed, tools) {
             $("#" + left[i]).addClass("comparing")
             $("#" + left[i]).insertAfter($("#" + anchor))
             anchor = left[i]
-            audio.frequency.value = createFreq(left[i], length)
             await sleep(speed)
             arr[k] = left[i]
             $("#" + left[i]).removeClass("comparing")
@@ -179,7 +168,6 @@ export async function mergeSort (arr, speed, tools) {
             $("#" + right[i]).addClass("comparing")
             $("#" + right[j]).insertAfter($("#" + anchor))
             anchor = right[j]
-            audio.frequency.value = createFreq(right[j], length)
             await sleep(speed)
             arr[k] = right[j]
             $("#" + right[i]).removeClass("comparing")
@@ -197,23 +185,16 @@ export async function mergeSort (arr, speed, tools) {
 
 export async function selectionSort (arr, speed) {
 
-    const { length, audio } = setUp(arr)
-    const minAudio = createAudio(arr[0], length)
-    audio.start()
-    minAudio.start()
-
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < arr.length; i++) {
         // A: Initialize the minimum value index
         let minIdx = i
         // V: Visualize the minimum value which when the loop runs is the first value
         $("#" + arr[i]).addClass("comparing")
-        minAudio.frequency.value = createFreq(arr[minIdx], length)
         await sleep(speed)
-        for (let j = i + 1; j < length; j++) {
+        for (let j = i + 1; j < arr.length; j++) {
             // V: Create variable to hold the current value and highlight it
             const $curr = $("#" + arr[j])
             $curr.addClass("comparing")
-            audio.frequency.value = createFreq(arr[j], length)
             await sleep(speed)
             // V: Increase the comparisons
             comparisons++
@@ -225,7 +206,6 @@ export async function selectionSort (arr, speed) {
                 // A: Update the min index for the algo 
                 minIdx = j
                 $("#" + arr[minIdx]).addClass("comparing")
-                minAudio.frequency.value = createFreq(arr[minIdx], length)
                 await sleep(speed)
             } else {
                 $curr.removeClass("comparing")
@@ -243,19 +223,11 @@ export async function selectionSort (arr, speed) {
         $curr.removeClass("comparing")
     }
     // V: Stop the audio 
-    audio.stop()
-    minAudio.stop()
     // V: Final Pass
     await finalPass(arr, speed)
     // V: Reset comparisons
     comparisons = 0
 
-}
-
-export function setUp (arr) {
-    const length = arr.length
-    const audio = createAudio(arr[0], length)
-    return { length, audio }
 }
 
 function swap (a, b) {
@@ -268,14 +240,10 @@ function swap (a, b) {
 }
 
 export async function finalPass (arr, speed) {
-    const audio = createAudio(arr[0], arr.length)
-    audio.start()
     for (let num of arr) {
         $("#" + num).addClass("sorted")
-        audio.frequency.value = createFreq(num, arr.length)
         await sleep(speed)
     }
-    audio.stop()
 }
 
 function sleep (ms) {

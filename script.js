@@ -3,16 +3,18 @@ import {
     insertionSort,
     mergeSort,
     selectionSort,
-    finalPass,
-    setUp
+    finalPass
 } from "./algos.js";
 import {
     updateComparisions,
     updateTime
 } from './ui.js'
+import { audioObj } from './audio.js'
 
 (function() {
-    let $container, controls = {
+    let $container, 
+    $mute,
+    controls = {
         method: 'bubble',
         length: 25,
         nums: [],
@@ -82,6 +84,18 @@ import {
         }
     }
 
+    function muteToggle () {
+        const state = $mute[0].classList[2]
+        if (state === "off") {
+            $mute.removeClass("off")
+            $mute.addClass("on")
+            audioObj.gainNode.gain.value = 0
+        } else {
+            $mute.removeClass("on")
+            $mute.addClass("off")
+            audioObj.gainNode.gain.value = .25
+        }
+    }
 
     async function sort() {
         const { method, nums, speed } = controls
@@ -93,11 +107,11 @@ import {
                 insertionSort(nums, speed)
                 break
             case 'merge':
-                const tools = setUp(nums)
-                tools.comparisons = 0
-                tools.audio.start()
+                const tools = {
+                    comparisons: 0,
+                    length: nums.length
+                }
                 await mergeSort(nums, speed, tools)
-                tools.audio.stop()
                 await finalPass(nums, speed)
                 break
             case 'selection':
@@ -110,6 +124,7 @@ import {
 
     function init () {
         $container = $("#sort-container")
+        $mute = $("#mute")
         controls.nums = generateNums()
         drawDropdown()
         drawNums()
@@ -120,5 +135,6 @@ import {
     $("#sort-btn").on("click", sort)
     $("#new-arr-btn").on("click", newArray)
     $("#inputs-container input").on("change", event => handleSlideChange(event))
+    $("#mute").on("click", event => muteToggle(event))
     document.addEventListener('DOMContentLoaded', init)
 })()
