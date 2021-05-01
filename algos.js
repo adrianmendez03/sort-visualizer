@@ -61,7 +61,7 @@ export async function bubbleSort (arr, speed) {
 // This process continues until it has iterated through the entire array.
 
 export async function insertionSort(arr, speed) {
-
+    const { frequency } = audioObj.audio
     for (let i = 1; i < arr.length; i++) {
         // A: Store variables
         let key = arr[i], $key = $("#" + arr[i + 1]), j = i - 1
@@ -78,7 +78,7 @@ export async function insertionSort(arr, speed) {
             let $current = $("#" + arr[j]), $next = $("#" + arr[j + 1])
             // V: add the class comparing, change the pitch and time the function out
             $current.addClass("comparing")
-            // audio.frequency.value = createFreq(arr[j], length)
+            frequency.value = createFreq(arr[j], arr.length)
             $next.addClass("comparing")
             await sleep(speed);
             // A: this does the under the hood swap
@@ -95,7 +95,6 @@ export async function insertionSort(arr, speed) {
         arr[j + 1] = key
         $key.removeClass("sorted")
     }
-    await finalPass(arr, speed)
     comparisons = 0
 }
 
