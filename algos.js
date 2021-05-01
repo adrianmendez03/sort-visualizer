@@ -13,6 +13,7 @@ let comparisons = 0
 export async function bubbleSort (arr, speed) {
 
     updateComparisions(comparisons)
+    const { frequency } = audioObj.audio
 
     for (let i = 0; i < arr.length; i++) {
         let swapped = false
@@ -26,6 +27,7 @@ export async function bubbleSort (arr, speed) {
             // Visual: add the compare class and change the pitch
             $current.addClass("comparing")
             $next.addClass("comparing")
+            frequency.value = createFreq((currentVal + nextVal) / 2, arr.length)
             await sleep(speed)
             // Visual: update the comparisons
             comparisons++
@@ -241,8 +243,10 @@ function swap (a, b) {
 }
 
 export async function finalPass (arr, speed) {
+    const { frequency } = audioObj.audio
     for (let num of arr) {
         $("#" + num).addClass("sorted")
+        frequency.value = createFreq(num, arr.length)
         await sleep(speed)
     }
 }
