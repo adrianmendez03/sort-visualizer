@@ -29,6 +29,8 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin: auto;
+    max-width: 800px;
 }
 
 select {
@@ -38,6 +40,7 @@ select {
     border-radius: 25px;
     border: none;
     outline: none;
+    width: 100%;
 }
 
 button {
@@ -49,6 +52,13 @@ button {
     text-transform: uppercase;
 }
 
+main {
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
 /* ALGO SELECT */
 
 #algo-select {
@@ -56,10 +66,18 @@ button {
     height: 50px;
     text-align-last: center;
     font-weight: bold;
-    margin-bottom: 10px;
 }
 
 /* END OF ALGO SELECT */
+
+/* MAIN DISPLAY */
+
+#sort-display {
+    display: flex;
+    flex-direction: column;
+}
+
+/* END OF DISPLAY */
 
 /* SORT CONTAINER */
 
@@ -217,4 +235,20 @@ button {
 }
 
 /* END OF MENU */
-  
+
+
+@media only screen and (min-width: 1024px) {
+    main {
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    main #menu-container {
+        width: 300px;
+    }
+
+    main #sort-display {
+        width: 375px;
+    }
+}

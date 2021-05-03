@@ -47,11 +47,12 @@ import { audioObj, createContext } from './audio.js'
             $select.append($option)
         }
         $select.on('change', event => sortControls.method = event.target.value)
-        $("body").prepend($select)
+        $("header").append($select)
     }
 
     function drawNums () {
         $container.empty()
+        console.log($container.height())
         let width = ($container.width() - 10) / sortControls.length
         for (let i = 0; i < sortControls.length; i++) {
             const $div = $("<div>").addClass("idle segment").width(width).height(($container.height() / sortControls.length) * sortControls.nums[i]).attr("id", sortControls.nums[i])
@@ -64,7 +65,7 @@ import { audioObj, createContext } from './audio.js'
         const $comparisons = $("<div>").attr("id", "comparisons").html("<div>comparisons</div><div class='counter'>0</div>")
         const $time = $("<div>").attr("id", "time").html("<div>delay</div><div><span class='counter'>50</span><span id='ms'>ms</span></div>")
         $statsContainer.append($comparisons).append($time)
-        $statsContainer.insertAfter($("#sort-container"))
+        $("#sort-display").append($statsContainer)
     }
 
     function handleSlideChange (event) {
@@ -144,5 +145,6 @@ import { audioObj, createContext } from './audio.js'
     $("#new-arr-btn").on("click", newArray)
     $("#inputs-container input").on("change", event => handleSlideChange(event))
     $("#mute").on("click", event => muteToggle(event))
+    window.addEventListener('resize', drawNums)
     document.addEventListener('DOMContentLoaded', init)
 })()
