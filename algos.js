@@ -107,7 +107,7 @@ export async function insertionSort(arr, speed) {
 
 export async function mergeSort (arr, speed, tools) {
     const { length } = tools
-
+    const { frequency } = audioObj.audio
     if (arr.length > 1) {
         // A: Find the middle of the array 
         const mid = Math.floor(arr.length / 2)
@@ -128,18 +128,21 @@ export async function mergeSort (arr, speed, tools) {
             $left.addClass("comparing")
             $right.addClass("comparing")
             // V: Update the audio
+            frequency.value = createFreq((left[i] + right[j]) / 2, length)
             await sleep(speed)
             // A: Updating the comparisons
             tools.comparisons++
             updateComparisions(tools.comparisons)
             // A & V: With each comparisons set the anchor equal to the element being inserted and increment either i or j
             if (left[i] < right[j]) {
+                frequency.value = createFreq(left[i], length)
                 anchor = left[i]
                 $left.insertAfter($anchor)
                 arr[k] = left[i]
                 $left.removeClass("comparing")
                 i++
             } else {
+                frequency.value = createFreq(left[i], length)
                 $right.insertAfter($anchor)
                 anchor = right[j]
                 arr[k] = right[j]

@@ -51,6 +51,7 @@ import { audioObj, createContext } from './audio.js'
     function drawNums () {
         $container.empty()
         let width = ($container.width() - 10) / controls.length
+        console.log($container.height())
         for (let i = 0; i < controls.length; i++) {
             const $div = $("<div>").addClass("idle segment").width(width).height(($container.height() / controls.length) * controls.nums[i]).attr("id", controls.nums[i])
             $container.append($div)
