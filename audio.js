@@ -2,7 +2,7 @@ let context
 
 export let audioObj = {}
 
-export function createContext (mute) {
+export function createContext (controls) {
     context = new AudioContext()
     audioObj = {
         context,
@@ -10,9 +10,13 @@ export function createContext (mute) {
         gainNode: context.createGain()
     }
     audioObj.audio.start()
-    audioObj.gainNode.gain.value = mute ? 0 : .20
-    audioObj.audio.type = "sine" 
+    audioObj.gainNode.gain.value = controls.mute ? 0 : .10
+    audioObj.audio.type = controls.type
     audioObj.audio.connect(audioObj.gainNode).connect(context.destination)
+}
+
+export function setUpAudio (audio) {
+    
 }
 
 export function createFreq (value, length) {

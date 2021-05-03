@@ -14,24 +14,27 @@ import { audioObj, createContext } from './audio.js'
 (function() {
     let $container, 
     $mute,
-    controls = {
+    sortControls = {
         method: 'bubble',
         length: 25,
         nums: [],
-        speed: 50,
-        mute: false
+        speed: 50
+    },
+    audioControls = {
+        mute: false,
+        type: "sine"
     }
 
     function newArray () {
-        controls.nums = generateNums()
+        sortControls.nums = generateNums()
         drawNums()
         updateComparisions(0)
     }
 
     function generateNums () {
         const unique = new Set()
-        while (unique.size < controls.length) {
-            unique.add(Math.floor(Math.random() * controls.length) + 1)
+        while (unique.size < sortControls.length) {
+            unique.add(Math.floor(Math.random() * sortControls.length) + 1)
         }
         return [...unique]
     }
@@ -43,15 +46,15 @@ import { audioObj, createContext } from './audio.js'
             const $option = $("<option>").attr("value", algo).text(algo)
             $select.append($option)
         }
-        $select.on('change', event => controls.method = event.target.value)
+        $select.on('change', event => sortControls.method = event.target.value)
         $("body").prepend($select)
     }
 
     function drawNums () {
         $container.empty()
-        let width = ($container.width() - 10) / controls.length
-        for (let i = 0; i < controls.length; i++) {
-            const $div = $("<div>").addClass("idle segment").width(width).height(($container.height() / controls.length) * controls.nums[i]).attr("id", controls.nums[i])
+        let width = ($container.width() - 10) / sortControls.length
+        for (let i = 0; i < sortControls.length; i++) {
+            const $div = $("<div>").addClass("idle segment").width(width).height(($container.height() / sortControls.length) * sortControls.nums[i]).attr("id", sortControls.nums[i])
             $container.append($div)
         }
     }
@@ -68,24 +71,24 @@ import { audioObj, createContext } from './audio.js'
         const name = event.target.name
         const value = parseInt(event.target.value)
         if (name === 'length') {
-            controls = {
-                ...controls,
+            sortControls = {
+                ...sortControls,
                 [name]: value
             }
-            controls.nums = generateNums()
+            sortControls.nums = generateNums()
             drawNums()
         } else {
             const { max } = event.target
-            controls = {
-                ...controls,
+            sortControls = {
+                ...sortControls,
                 [name]: max - value
             }
-            updateTime(controls[name])
+            updateTime(sortControls[name])
         }
     }
 
     function muteToggle () {
-        if (controls.mute) {
+        if (audioControls.mute) {
             $mute.removeClass("on")
             $mute.addClass("off")
         } else {
@@ -93,16 +96,16 @@ import { audioObj, createContext } from './audio.js'
             $mute.addClass("on")
         }
 
-        controls.mute = controls.mute ? false : true
+        audioControls.mute = audioControls.mute ? false : true
 
         if (audioObj.context) {
-            audioObj.gainNode.gain.value = controls.mute ? 0 : .20
+            audioObj.gainNode.gain.value = audioControls.mute ? 0 : .10
         }
     }
 
     async function sort() {
-        const { method, nums, speed, mute } = controls
-        createContext(mute)
+        const { method, nums, speed } = sortControls
+        createContext(audioControls)
         switch(method) {
             case 'bubble':
                 await bubbleSort(nums, speed)
@@ -130,7 +133,7 @@ import { audioObj, createContext } from './audio.js'
     function init () {
         $container = $("#sort-container")
         $mute = $("#mute")
-        controls.nums = generateNums()
+        sortControls.nums = generateNums()
         drawDropdown()
         drawNums()
         drawStats()

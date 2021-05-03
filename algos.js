@@ -190,16 +190,25 @@ export async function mergeSort (arr, speed, tools) {
 
 export async function selectionSort (arr, speed) {
 
+    const { frequency } = audioObj.audio
+    const lowAudio = audioObj.context.createOscillator()
+    lowAudio.start()
+    lowAudio.type = "sine"
+    lowAudio.connect(audioObj.gainNode).connect(audioObj.context.destination)
+
     for (let i = 0; i < arr.length; i++) {
         // A: Initialize the minimum value index
         let minIdx = i
         // V: Visualize the minimum value which when the loop runs is the first value
         $("#" + arr[i]).addClass("comparing")
+        lowAudio.frequency.value = createFreq(arr[minIdx], arr.length)
+        frequency.value = createFreq(arr[i], arr.length)
         await sleep(speed)
         for (let j = i + 1; j < arr.length; j++) {
             // V: Create variable to hold the current value and highlight it
             const $curr = $("#" + arr[j])
             $curr.addClass("comparing")
+            frequency.value = createFreq(arr[j], arr.length)
             await sleep(speed)
             // V: Increase the comparisons
             comparisons++
@@ -210,6 +219,7 @@ export async function selectionSort (arr, speed) {
                 $("#" + arr[minIdx]).removeClass("comparing")
                 // A: Update the min index for the algo 
                 minIdx = j
+                lowAudio.frequency.value = createFreq(arr[minIdx], arr.length)
                 $("#" + arr[minIdx]).addClass("comparing")
                 await sleep(speed)
             } else {
@@ -228,8 +238,7 @@ export async function selectionSort (arr, speed) {
         $curr.removeClass("comparing")
     }
     // V: Stop the audio 
-    // V: Final Pass
-    await finalPass(arr, speed)
+    lowAudio.stop()
     // V: Reset comparisons
     comparisons = 0
 
