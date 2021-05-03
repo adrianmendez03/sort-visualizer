@@ -17,13 +17,7 @@
     letter-spacing: 1px;
 }
 
-html {
-
-    overflow: hidden;
-}
-
 body {
-    height: 100vh;
     padding: 15px;
     background: var(--primary);
     display: flex;
@@ -31,6 +25,11 @@ body {
     justify-content: space-between;
     margin: auto;
     max-width: 800px;
+    min-height: 100vh;
+}
+
+header {
+    margin-bottom: 10px;
 }
 
 select {
@@ -53,10 +52,19 @@ button {
 }
 
 main {
-    height: 90%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+}
+
+footer {
+    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.329);
+    text-align: center;
+}
+
+a {
+    color: rgba(255, 255, 255, 0.329);
 }
 
 /* ALGO SELECT */
@@ -242,6 +250,7 @@ main {
         flex-direction: row-reverse;
         justify-content: space-between;
         align-items: center;
+        overflow: auto;
     }
 
     main #menu-container {
