@@ -41,7 +41,8 @@ import { audioObj, createContext } from './audio.js'
 
     function drawDropdown () {
         const algos = ['bubble', 'insertion', 'merge', 'selection']
-        const $select = $("<select>").attr("id", "algo-select").addClass("uppercase")
+        const $label = $("<label>").attr("for", "algos")
+        const $select = $("<select>").attr("id", "algo-select").attr("name", "algos").addClass("uppercase")
         for (let algo of algos) {
             const $option = $("<option>").attr("value", algo).text(algo)
             $select.append($option)
@@ -50,7 +51,7 @@ import { audioObj, createContext } from './audio.js'
             sortControls.method = event.target.value
             newArray()
         })
-        $("header").append($select)
+        $("header").append($label).append($select)
     }
 
     function drawNums () {

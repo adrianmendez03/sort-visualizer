@@ -44,7 +44,6 @@ select {
 
 button {
     border: none;
-    outline: none;
 }
 
 .uppercase {
@@ -150,15 +149,19 @@ a {
     border-radius: 25px;
 }
 
-#menu-container div:nth-child(1) {
+#menu-container section:nth-child(1) {
     margin-bottom: 5px;
 }
 
-#menu-container div:nth-child(3) {
+#menu-container section:nth-child(3) {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     margin-top: 10px;
+}
+
+#menu-container section:nth-child(3) button {
+    background-color: transparent;
 }
 
 #top-btns {
@@ -214,6 +217,7 @@ a {
     border-radius: 25px;
     height: 10px;
     background: var(--primary);
+    padding: 5px;
 }
 
 .slider::-webkit-slider-thumb {
@@ -225,6 +229,10 @@ a {
     background: var(--accent); /* Green background */
     cursor: pointer; /* Cursor on hover */
 }
+
+/* .slider:focus {
+    outline: 1px solid #fff                 ;
+} */
 
 #mute {
     border-radius: 25px;
