@@ -104,9 +104,20 @@ import { audioObj, createContext } from './audio.js'
         }
     }
 
+    function addFunctionality () {
+        $("#sort-btn").on("click", sort)
+        $("#new-arr-btn").on("click", newArray)
+    }
+
+    function removeFunctionality () {
+        $("#sort-btn").off()
+        $("#new-arr-btn").off()
+    }
+
     async function sort() {
         const { method, nums, speed } = sortControls
         createContext(audioControls)
+        removeFunctionality()
         switch(method) {
             case 'bubble':
                 await bubbleSort(nums, speed)
@@ -129,6 +140,7 @@ import { audioObj, createContext } from './audio.js'
         }
         await finalPass(nums, speed)
         audioObj.context.close()
+        addFunctionality()
     }
 
     function init () {
@@ -138,11 +150,10 @@ import { audioObj, createContext } from './audio.js'
         drawDropdown()
         drawNums()
         drawStats()
+        addFunctionality()
     }
 
     // EVENT LISTENERS
-    $("#sort-btn").on("click", sort)
-    $("#new-arr-btn").on("click", newArray)
     $("#inputs-container input").on("change", event => handleSlideChange(event))
     $("#mute").on("click", event => muteToggle(event))
     window.addEventListener('resize', drawNums)
