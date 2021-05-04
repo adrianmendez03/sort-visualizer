@@ -24,7 +24,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     margin: auto;
-    max-width: 800px;
+    max-width: 1024px;
     min-height: 100vh;
 }
 
@@ -248,7 +248,7 @@ a {
 @media only screen and (min-width: 1024px) {
     main {
         flex-direction: row-reverse;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
         overflow: auto;
     }
@@ -258,6 +258,10 @@ a {
     }
 
     main #sort-display {
-        width: 375px;
+        width: 475px;
+    }
+
+    #sort-container {
+        height: 400px;
     }
 }
