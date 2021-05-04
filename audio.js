@@ -15,12 +15,8 @@ export function createContext (controls) {
     audioObj.audio.connect(audioObj.gainNode).connect(context.destination)
 }
 
-export function setUpAudio (audio) {
-    
-}
-
 export function createFreq (value, length) {
-    return (value * (1000 / length)) + 130
+    return (value * (800 / length)) + 130
 }
 
 

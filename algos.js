@@ -69,6 +69,7 @@ export async function insertionSort(arr, speed) {
         $key.addClass("sorted")
         comparisons++
         updateComparisions(comparisons)
+        frequency.value = createFreq(arr[i], arr.length)
         await sleep(speed)
         while (j >= 0 && key < arr[j]) {
             comparisons++
@@ -142,7 +143,7 @@ export async function mergeSort (arr, speed, tools) {
                 $left.removeClass("comparing")
                 i++
             } else {
-                frequency.value = createFreq(left[i], length)
+                frequency.value = createFreq(right[j], length)
                 $right.insertAfter($anchor)
                 anchor = right[j]
                 arr[k] = right[j]
@@ -162,6 +163,7 @@ export async function mergeSort (arr, speed, tools) {
         while (i < left.length) {
             $("#" + left[i]).addClass("comparing")
             $("#" + left[i]).insertAfter($("#" + anchor))
+            frequency.value = createFreq(left[i], length)
             anchor = left[i]
             await sleep(speed)
             arr[k] = left[i]
@@ -172,6 +174,7 @@ export async function mergeSort (arr, speed, tools) {
         while (j < right.length) {
             $("#" + right[i]).addClass("comparing")
             $("#" + right[j]).insertAfter($("#" + anchor))
+            frequency.value = createFreq(right[j], length)
             anchor = right[j]
             await sleep(speed)
             arr[k] = right[j]
