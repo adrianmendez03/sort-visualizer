@@ -46,7 +46,10 @@ import { audioObj, createContext } from './audio.js'
             const $option = $("<option>").attr("value", algo).text(algo)
             $select.append($option)
         }
-        $select.on('change', event => sortControls.method = event.target.value)
+        $select.on('change', event => {
+            sortControls.method = event.target.value
+            newArray()
+        })
         $("header").append($select)
     }
 
