@@ -111,11 +111,17 @@ import { audioObj, createContext } from './audio.js'
     function addFunctionality () {
         $("#sort-btn").on("click", sort)
         $("#new-arr-btn").on("click", newArray)
+        $("#length").prop("disabled", false)
+        $("#speed").prop("disabled", false)
+        $("#algo-select").prop("disabled", false)
     }
 
     function removeFunctionality () {
         $("#sort-btn").off()
         $("#new-arr-btn").off()
+        $("#length").prop("disabled", true)
+        $("#speed").prop("disabled", true)
+        $("#algo-select").prop("disabled", true)
     }
 
     async function sort() {
